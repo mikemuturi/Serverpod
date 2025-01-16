@@ -1,0 +1,54 @@
+services:
+  # Development services
+  postgres:
+    image: postgres:16.3
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: my_budget_expense_app
+      POSTGRES_PASSWORD: "lP2_cAKmbjuwfc-BZ0mdEyQCGK-BoqOM"
+    volumes:
+      - my_budget_expense_app_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - dev
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "DCCNe0p-jdR4itdjtfVM-jeQbTDFbejv"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - dev
+
+  # Test services
+  postgres_test:
+    image: postgres:16.3
+    ports:
+      - '9090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: my_budget_expense_app_test
+      POSTGRES_PASSWORD: "xdkEF2o0XMTf8rbZdYwg8ulGyt0lTzz7"
+    volumes:
+      - my_budget_expense_app_test_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - test
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - '9091:6379'
+    command: redis-server --requirepass "MuU7bYJ88HdjeEp2_8dVJ6_DdE8X7Kcl"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - test
+
+volumes:
+  my_budget_expense_app_data:
+  my_budget_expense_app_test_data:
